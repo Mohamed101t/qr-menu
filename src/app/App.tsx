@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { restaurant } from "../features/restaurant/data/restaurant";
 import { RestaurantHeader } from "../features/restaurant/presentation/RestaurantHeader";
 import { categories, products } from "../features/menu/data/menu";
@@ -10,6 +10,10 @@ import {
   decreaseCartItem,
   removeCartItem,
 } from "../features/cart/domain/cart";
+import {
+  loadCart,
+  saveCart,
+} from "../features/cart/data/cart-storage";
 import { CartSummary } from "../features/cart/presentation/CartSummary";
 import { CartPanel } from "../features/cart/presentation/CartPanel";
 import type { Order } from "../features/orders/domain/order";
@@ -17,9 +21,16 @@ import { createOrder } from "../features/orders/domain/create-order";
 import { OrderSuccess } from "../features/orders/presentation/OrderSuccess";
 
 export function App() {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(() =>
+    loadCart(restaurant.id),
+  );
+
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [order, setOrder] = useState<Order | null>(null);
+
+  useEffect(() => {
+    saveCart(restaurant.id, cart);
+  }, [cart]);
 
   function handleConfirmOrder() {
     const newOrder = createOrder({
