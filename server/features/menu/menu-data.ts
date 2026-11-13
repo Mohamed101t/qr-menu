@@ -29,6 +29,16 @@ const menus: RestaurantMenu[] = [
         isAvailable: true,
         sortOrder: 1,
       },
+      {
+        id: "seasonal-juice",
+        categoryId: "juices",
+        name: "عصير موسمي",
+        description: "غير متاح حالياً",
+        price: 2500,
+        imageUrl: null,
+        isAvailable: false,
+        sortOrder: 2,
+      },
     ],
   },
 ];

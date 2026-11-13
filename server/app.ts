@@ -2,6 +2,7 @@ import Fastify, {
   type FastifyInstance,
 } from "fastify";
 import { registerMenuRoutes } from "./features/menu/menu-route";
+import { registerOrderRoutes } from "./features/orders/order-route";
 
 interface BuildAppOptions {
   logger?: boolean;
@@ -41,6 +42,7 @@ export function buildApp(
   );
 
   app.register(registerMenuRoutes);
+  app.register(registerOrderRoutes);
 
   return app;
 }
