@@ -1,0 +1,43 @@
+import Fastify, {
+  type FastifyInstance,
+} from "fastify";
+
+interface BuildAppOptions {
+  logger?: boolean;
+}
+
+export function buildApp(
+  options: BuildAppOptions = {},
+): FastifyInstance {
+  const app = Fastify({
+    logger: options.logger ?? false,
+  });
+
+  app.get(
+    "/health",
+    {
+      schema: {
+        response: {
+          200: {
+            type: "object",
+            additionalProperties: false,
+            required: ["status"],
+            properties: {
+              status: {
+                type: "string",
+                const: "ok",
+              },
+            },
+          },
+        },
+      },
+    },
+    async () => {
+      return {
+        status: "ok",
+      };
+    },
+  );
+
+  return app;
+}
